@@ -118,7 +118,6 @@ def login():
     if request.method == 'POST':
         email = request.form.get('email','').strip().lower()
         password = request.form.get('password','').strip()
-        # Admin kontrol
         if email == "eminomer906@gmail.com" and password == "emin1234sensin":
             user = User.query.filter_by(email=email).first()
             if not user:
@@ -229,6 +228,7 @@ def serve_video(filename):
 def serve_avatar(filename):
     return send_from_directory(app.config['AVATAR_FOLDER'], filename)
 
-# --- RUN ---
+# --- RUN (Render uyumlu) ---
 if __name__ == '__main__':
-    app.run(debug=True, port=8080)
+    port = int(os.environ.get("PORT", 8080))  # Render PORT al, yoksa 8080
+    app.run(host="0.0.0.0", port=port, debug=True)
